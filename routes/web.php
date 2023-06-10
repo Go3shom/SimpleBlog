@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +24,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::resource('categories', CategoryController::class);
+Route::resource('posts', PostController::class);
 
 Route::get('/home', [HomeController::class, 'index'])
     ->name('home');
