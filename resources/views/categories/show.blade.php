@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="row">
                     <div class="mb-3">
-                        <a href="{{ route('categories.index') }}" class="btn btn-link">
+                        <a href="{{ route('categories.index') }}" class="btn btn-outline-secondary">
                             {{ __('Back') }}
                         </a>
                     </div>

@@ -37,11 +37,7 @@
 
                                 <div class="row px-2">
                                     <div class="col-9">
-                                        <p>
-                                            <small class="text-body-secondary">
-                                                {{ __('Last updated ' . $category->updated_at->diffForHumans()) }}
-                                            </small>
-                                        </p>
+                                        {{ __('Last updated ' . $category->updated_at->diffForHumans()) }}
                                     </div>
 
 
