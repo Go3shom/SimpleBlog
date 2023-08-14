@@ -6,11 +6,6 @@
             <div class="col-md-8">
                 <h1>{{ __($post->title . ' Edit') }}</h1>
 
-                <a href="{{ route('posts.index') }}" class="btn btn-link">
-                    {{ __('Back') }}
-                </a>
-
-
                 <div class="row">
                     <div class="col-sm-12 col-md-8">
                         <form method="POST" action="{{ route('posts.update', $post) }}">
@@ -86,11 +81,16 @@
                                 @enderror
                             </div>
 
-                            <button type="submit" class="btn btn-primary">
-                                {{ __('Update') }}
-                            </button>
-                        </form>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a href="{{ route('posts.index') }}" class="btn btn-outline-secondary">
+                                    {{ __('Back') }}
+                                </a>
 
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('Update') }}
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

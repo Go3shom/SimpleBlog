@@ -18,13 +18,50 @@ use App\Http\Controllers\HomeController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('posts');
 });
 
 Auth::routes();
 
-Route::resource('categories', CategoryController::class);
-Route::resource('posts', PostController::class);
 
 Route::get('/home', [HomeController::class, 'index'])
     ->name('home');
+
+
+// Route::resource('posts', PostController::class)
+//     ->only(['index', 'show']);
+
+// Route::resource('categories', CategoryController::class);
+
+
+
+// Route::middleware(['auth'])
+//     ->group(function () {
+
+//         Route::resource('categories', CategoryController::class)
+//             ->only(['index', 'show'])
+//         ;
+
+Route::resource('posts', PostController::class);
+// });
+
+
+
+// Route::middleware(['is_admin'])
+//     ->group(function () {
+// Route::resource('posts', PostController::class)
+//     ->only(['index', 'show']);
+// });
+
+
+
+
+
+Route::middleware(['guest'])
+    ->group(function () {
+        Route::resource('posts', PostController::class)
+            ->only(['index', 'show']);
+
+        Route::resource('categories', CategoryController::class)
+            ->only(['index', 'show']);
+    });

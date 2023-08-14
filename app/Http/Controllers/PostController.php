@@ -15,7 +15,9 @@ class PostController extends Controller
     public function index()
     {
         return view('posts.index', [
-            'posts' => Post::with(['category'])
+            'posts' =>
+            // Post::get()
+            Post::with(['category', 'user'])
                 ->latest('updated_at')
                 ->get()
         ]);
@@ -37,6 +39,11 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
         Post::create($request->validated());
+
+        // [x] Should add authorize or policy for the whole project to check once as "DRY" concept says
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
 
         return redirect()
             ->route('posts.index');

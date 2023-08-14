@@ -6,27 +6,30 @@
             <div class="col-md-8">
                 <div class="row my-3">
                     <div class="col">
-                        <a href="{{ route('posts.index') }}" class="btn btn-link">
+                        <a href="{{ route('posts.index') }}" class="btn btn-outline-secondary">
                             {{ __('Back') }}
                         </a>
                     </div>
-                    <div class="col">
-                        <div class="d-flex justify-content-end">
-                            <div class="px-0">
-                                <a class="btn btn-outline-secondary" href="{{ route('posts.edit', $post) }}">
-                                    {{ __('Edit') }}
-                                </a>
-                                <a class="btn btn-danger" href="#"
-                                    onclick="event.preventDefault(); if(confirm('Are you sure to delete?')) { document.getElementById('removepost').submit(); }">
-                                    {{ __('Delete') }}
-                                </a>
-                                <form id="removepost" action="{{ route('posts.destroy', $post) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
+                    @auth
+                        <div class="col">
+                            <div class="d-flex justify-content-end">
+                                <div class="px-0">
+                                    <a class="btn btn-link" href="{{ route('posts.edit', $post) }}">
+                                        {{ __('Edit') }}
+                                    </a>
+                                    <a class="btn btn-danger" href="#"
+                                        onclick="event.preventDefault(); if(confirm('Are you sure to delete?')) { document.getElementById('removepost').submit(); }">
+                                        {{ __('Delete') }}
+                                    </a>
+                                    <form id="removepost" action="{{ route('posts.destroy', $post) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
+
+                    @endauth
                 </div>
 
                 <div class="mb-3">
@@ -47,7 +50,12 @@
 
                         <div class="my-2">
                             <small class="text-body-secondary">
-                                {{ __('Last updated ' . $post->updated_at->diffForHumans()) }}
+                                {{-- //FIXME
+                                         Call to a member function diffForHumans() on null
+                                    --}}
+                                @if ($post->updated_at != null)
+                                    {{ __('Last updated ' . $post->updated_at->diffForHumans()) }}
+                                @endif
                             </small>
                         </div>
 

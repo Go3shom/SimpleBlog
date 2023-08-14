@@ -6,10 +6,6 @@
             <h1>{{ __('New Post') }}</h1>
 
 
-            <a href="{{ route('posts.index') }}" class="btn btn-link">
-                {{ __('Back') }}
-            </a>
-
             <div class="row">
                 <div class="col-sm-12 col-md-8">
                     <form method="POST" action="{{ route('posts.store') }}">
@@ -62,20 +58,25 @@
                             @enderror
                         </div>
 
-                        <div class="mb-3">
-                            <select class="form-select @error('category_id')is-invalid @enderror" name="category_id"
-                                aria-label="select category">
-                                @forelse ($categories as $category)
-                                    <option value="{{ $category->id ?? 1 }}" @selected(old('category_id') == $category->id)>
-                                        {{ $category->name }}
-                                    </option>
-                                @empty
-                                    <a href="{{ route('categories.create') }}" class="btn btn-primary">
-                                        {{ __('New Category') }}
-                                    </a>
-                                @endforelse
-                            </select>
 
+                        <div class="mb-3">
+                            @if ($categories->count() >= 1)
+                                <select class="form-select @error('category_id')is-invalid @enderror" name="category_id"
+                                    aria-label="select category">
+
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id ?? 1 }}" @selected(old('category_id') == $category->id)>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+
+                                </select>
+                            @else
+                                {{ __('No Categories; ') }}
+                                <a href="{{ route('categories.create') }}" class="btn btn-link">
+                                    {{ __('Create New') }}
+                                </a>
+                            @endif
                             @error('category_id')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -83,9 +84,16 @@
                             @enderror
                         </div>
 
-                        <button type="submit" class="btn btn-primary">
-                            {{ __('Save') }}
-                        </button>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{{ route('posts.index') }}" class="btn btn-outline-secondary">
+                                {{ __('Back') }}
+                            </a>
+
+                            <button type="submit" class="btn btn-primary ">
+                                {{ __('Save') }}
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
