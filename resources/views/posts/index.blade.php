@@ -30,6 +30,12 @@
                                     </h2>
 
                                     <div class="my-2">
+                                        @if ($post->user->is_admin)
+                                            {{ __('Written by: ') }}
+                                            <span class="badge text-bg-primary">{{ $post->user->username }}</span>
+                                            in
+                                        @endif
+
                                         <a href="{{ route('categories.show', $post->category->id) }}">
                                             <span class="badge text-bg-secondary">
                                                 {{ $post->category->name }}
@@ -50,27 +56,31 @@
                                         </p>
                                     </div>
 
-                                    @auth
+                                    @auth()
                                         <div class="col-3">
-                                            <a class="btn btn-sm btn-outline-secondary" href="{{ route('posts.edit', $post) }}">
-                                                {{ __('Edit') }}
-                                            </a>
+                                            @can('update', $post)
+                                                <a class="btn btn-sm btn-outline-secondary"
+                                                    href="{{ route('posts.edit', $post) }}">
+                                                    {{ __('Edit') }}
+                                                </a>
+                                            @endcan
 
-                                            <a class="btn btn-sm btn-danger" href="#"
-                                                onclick="event.preventDefault(); if(confirm('Are you sure to delete?')) { document.getElementById('removePost-{{ $loop->iteration }}').submit();}">
-                                                {{ __('Delete') }}
-                                            </a>
 
-                                            <form id="removePost-{{ $loop->iteration }}"
-                                                action="{{ route('posts.destroy', $post) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                            </form>
+                                            @can('delete', $post)
+                                                <a class="btn btn-sm btn-danger" href="#"
+                                                    onclick="event.preventDefault(); if(confirm('Are you sure to delete?')) { document.getElementById('removePost-{{ $loop->iteration }}').submit();}">
+                                                    {{ __('Delete') }}
+                                                </a>
+
+                                                <form id="removePost-{{ $loop->iteration }}"
+                                                    action="{{ route('posts.destroy', $post) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                            @endcan
                                         </div>
                                     @endauth
-
                                 </div>
-
                             </div>
                         </div>
                     @empty

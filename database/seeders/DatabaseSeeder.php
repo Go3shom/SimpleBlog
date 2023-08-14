@@ -15,20 +15,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
-        // DB::insert('insert into users (id, name) values (?, ?)', [1, 'Dayle'])
-
-
         DB::insert(
-            'insert into categories(id, name, slug) values (?, ?, ?)',
-            [1, 'Uncategorized', 'uncategorized']
+            'insert into categories(id, name, slug, created_at,
+            updated_at) values (?, ?, ?, ?, ?)',
+            [1, 'Uncategorized', 'uncategorized', now(), now()]
         );
 
 
         User::factory()->create([
-            'name' => 'Dude',
-            'username' => 'Dude',
-            'email' => 'dude@dude.com',
+            'is_admin' => true,
+            'name' => 'Admin',
+            'username' => 'Admin',
+            'email' => 'admin@simple.blog.com',
             'password' => 'password@123'
         ]);
     }
