@@ -3,15 +3,27 @@
 namespace App\Http\Requests\Posts;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\User;
 
 class StorePostRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
         return true;
+    }
+
+    public function validationData()
+    {
+        return array_merge(
+            $this->all(),
+            [
+                'user_id' => $this->user()->id
+            ]
+        );
     }
 
     /**
@@ -24,6 +36,10 @@ class StorePostRequest extends FormRequest
         return [
             'category_id' => [
                 'required',
+            ],
+            'user_id' => [
+                'required',
+                'exists:users,id',
             ],
             'title' => [
                 'required',

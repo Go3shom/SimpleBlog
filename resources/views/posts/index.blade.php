@@ -9,11 +9,13 @@
                         <h1>{{ __('Posts') }}</h1>
                     </div>
 
-                    <div class="col d-flex align-self-center justify-content-sm-end justify-content-md-center">
-                        <a class="btn btn-primary" href="{{ route('posts.create') }}">
-                            {{ __('New Post') }}
-                        </a>
-                    </div>
+                    @auth
+                        <div class="col d-flex align-self-center justify-content-sm-end justify-content-md-center">
+                            <a class="btn btn-primary" href="{{ route('posts.create') }}">
+                                {{ __('New Post') }}
+                            </a>
+                        </div>
+                    @endauth
                 </div>
 
                 <div class="row my-4">
@@ -48,23 +50,25 @@
                                         </p>
                                     </div>
 
-                                    <div class="col-3">
-                                        <a class="btn btn-sm btn-outline-secondary" href="{{ route('posts.edit', $post) }}">
-                                            {{ __('Edit') }}
-                                        </a>
+                                    @auth
+                                        <div class="col-3">
+                                            <a class="btn btn-sm btn-outline-secondary" href="{{ route('posts.edit', $post) }}">
+                                                {{ __('Edit') }}
+                                            </a>
 
-                                        <a class="btn btn-sm btn-danger" href="#"
-                                            onclick="event.preventDefault(); if(confirm('Are you sure to delete?')) { document.getElementById('removePost-{{ $loop->iteration }}').submit();}">
-                                            {{ __('Delete') }}
-                                        </a>
+                                            <a class="btn btn-sm btn-danger" href="#"
+                                                onclick="event.preventDefault(); if(confirm('Are you sure to delete?')) { document.getElementById('removePost-{{ $loop->iteration }}').submit();}">
+                                                {{ __('Delete') }}
+                                            </a>
 
-                                        <form id="removePost-{{ $loop->iteration }}"
-                                            action="{{ route('posts.destroy', $post) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
+                                            <form id="removePost-{{ $loop->iteration }}"
+                                                action="{{ route('posts.destroy', $post) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                        </div>
+                                    @endauth
 
-                                    </div>
                                 </div>
 
                             </div>
@@ -76,6 +80,30 @@
                     @endforelse
                 </div>
             </div>
+
+
+
+
+
+
+            {{-- //TODO Sidebar Component --}}
+            {{-- <div class="col-md-4 my-4">
+                <div class="position-sticky mt-5" style="top: 3rem;">
+                    <div>
+                        <h4 class="fst-italic">{{ __('Recent categories') }}</h4>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        @foreach ($post->category as $category)
+                            <a href="{{ route('categories.show', $category) }}"
+                                class="list-group-item list-group-item-action
+                                {{ $loop->first ? 'border-top' : '' }}">
+                                {{ $post->category->name }}
+                            </a>
+                        @endforeach
+                    </ul>
+                </div>
+            </div> --}}
+
         </div>
     </div>
 @endsection

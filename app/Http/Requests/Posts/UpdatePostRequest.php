@@ -14,6 +14,16 @@ class UpdatePostRequest extends FormRequest
         return true;
     }
 
+    public function validationData()
+    {
+        return array_merge(
+            $this->all(),
+            [
+                'user_id' => $this->user()->id
+            ]
+        );
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,6 +34,10 @@ class UpdatePostRequest extends FormRequest
         return [
             'category_id' => [
                 'required',
+            ],
+            'user_id' => [
+                'required',
+                'exists:users,id'
             ],
             'title' => [
                 'required',
