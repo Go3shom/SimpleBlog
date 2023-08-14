@@ -24,44 +24,18 @@ Route::get('/', function () {
 Auth::routes();
 
 
-Route::get('/home', [HomeController::class, 'index'])
-    ->name('home');
-
-
-// Route::resource('posts', PostController::class)
-//     ->only(['index', 'show']);
-
-// Route::resource('categories', CategoryController::class);
-
-
-
-// Route::middleware(['auth'])
-//     ->group(function () {
-
-//         Route::resource('categories', CategoryController::class)
-//             ->only(['index', 'show'])
-//         ;
-
 Route::resource('posts', PostController::class);
-// });
+Route::resource('categories', CategoryController::class);
 
 
-
-// Route::middleware(['is_admin'])
-//     ->group(function () {
-// Route::resource('posts', PostController::class)
-//     ->only(['index', 'show']);
-// });
-
-
-
-
-
-Route::middleware(['guest'])
+Route::middleware(['auth'])
     ->group(function () {
+        Route::get('/home', [HomeController::class, 'index'])
+            ->name('home');
+
         Route::resource('posts', PostController::class)
-            ->only(['index', 'show']);
+            ->except(['index', 'show']);
 
         Route::resource('categories', CategoryController::class)
-            ->only(['index', 'show']);
+            ->except(['index', 'show']);
     });
