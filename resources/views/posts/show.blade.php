@@ -50,9 +50,6 @@
 
                         <div class="my-2">
                             <small class="text-body-secondary">
-                                {{-- //FIXME
-                                         Call to a member function diffForHumans() on null
-                                    --}}
                                 @if ($post->updated_at != null)
                                     {{ __('Last updated ' . $post->updated_at->diffForHumans()) }}
                                 @endif
