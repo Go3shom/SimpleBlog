@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Posts;
 
+use App\Models\Post;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\App;
 
 class UpdatePostRequest extends FormRequest
 {
@@ -11,18 +13,43 @@ class UpdatePostRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        $user = $this->user();
+        // BUG On Updating records as an Admin, it binds the admin user_id instead of the user who creates the post.
+
+
+        // $postUserId = $this->post->user_id;
+
+        // if ($user->is_admin) {
+        //     $postUserId = $user->id;
+        // }
+
+        // dd($user->id);
+
+        $user = array_merge($this->all(), ['user_id' => $user->id]);
+
+
         return true;
     }
 
-    public function validationData()
-    {
-        return array_merge(
-            $this->all(),
-            [
-                'user_id' => $this->user()->id
-            ]
-        );
-    }
+    // public function validationData()
+    // {
+    //     // BUG
+    //     // In case of updating records as an admin, it updates the users' id with admin's one!!
+    //     // dd(auth()->id());
+
+    //     $post = $this->post->id;
+    //     $user = $this->user()->id;
+
+    //     // if ($user === $user->is_admin) {
+    //     //     $user_id = $post->user_id;
+    //     // }
+
+    //     // dd($this->post->id);
+
+    //     // $user = array_merge($this->all(), ['user_id' => $this->user()->id]);
+
+    //     return $user;
+    // }
 
     /**
      * Get the validation rules that apply to the request.
