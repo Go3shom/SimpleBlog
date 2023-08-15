@@ -48,12 +48,10 @@
 
 
                                 <div class="row px-2">
-                                    <div class="col-9">
-                                        <p>
-                                            <small class="text-body-secondary">
-                                                {{ __('Last updated ' . $post->updated_at->diffForHumans()) }}
-                                            </small>
-                                        </p>
+                                    <div class="col-9 mb-3">
+                                        <small class="text-body-secondary">
+                                            {{ __('Last updated ' . $post->updated_at->diffForHumans()) }}
+                                        </small>
                                     </div>
 
                                     @auth()
