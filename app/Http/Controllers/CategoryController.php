@@ -62,6 +62,8 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
+        $this->authorize('update', $category);
+
         $category->update($request->validated());
 
         return redirect()
@@ -73,6 +75,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        $this->authorize('delete', $category);
+
         $category->delete();
 
         return redirect()

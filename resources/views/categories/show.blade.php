@@ -25,9 +25,6 @@
 
                             <p>
                                 <small class="text-body-secondary">
-                                    {{-- //FIXME
-                                         Call to a member function diffForHumans() on null
-                                    --}}
                                     @if ($category->updated_at != null)
                                         {{ __('Last updated ' . $category->updated_at->diffForHumans()) }}
                                     @endif
@@ -37,23 +34,25 @@
 
 
                         <div class="p-2 mt-auto">
-                            {{-- //BUG --}}
-                            {{-- @auth
-                                <a class="btn btn-sm btn-outline-secondary" href="{{ route('categories.edit', $category) }}">
-                                    {{ __('Edit') }}
-                                </a>
+                            @auth
+                                @can('update', $category)
+                                    <a class="btn btn-sm btn-outline-secondary" href="{{ route('categories.edit', $category) }}">
+                                        {{ __('Edit') }}
+                                    </a>
+                                @endcan
 
+                                @can('delete', $category)
+                                    <a class="btn btn-sm btn-danger" href="#"
+                                        onclick="event.preventDefault();if(confirm('Are you sure to delete?')) {document.getElementById('removeCategory').submit();}">
+                                        {{ __('Delete') }}
+                                    </a>
 
-                                <a class="btn btn-sm btn-danger" href="#"
-                                    onclick="event.preventDefault();if(confirm('Are you sure to delete?')) {document.getElementById('removeCategory').submit();}">
-                                    {{ __('Delete') }}
-                                </a>
-
-                                <form id="removeCategory" action="{{ route('categories.destroy', $category) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                            @endauth --}}
+                                    <form id="removeCategory" action="{{ route('categories.destroy', $category) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                @endcan
+                            @endauth
                         </div>
                     </div>
                 </div>

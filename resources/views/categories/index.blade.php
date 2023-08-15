@@ -9,12 +9,13 @@
                         <h1>{{ __('Categories') }}</h1>
                     </div>
 
-
-                    <div class="col d-flex align-self-center justify-content-sm-end justify-content-md-center">
-                        <a class="btn btn-primary" href="{{ route('categories.create') }}">
-                            {{ __('New Category') }}
-                        </a>
-                    </div>
+                    @auth
+                        <div class="col d-flex align-self-center justify-content-sm-end justify-content-md-center">
+                            <a class="btn btn-primary" href="{{ route('categories.create') }}">
+                                {{ __('New Category') }}
+                            </a>
+                        </div>
+                    @endauth
                 </div>
 
                 <div class="row my-4">
@@ -36,29 +37,34 @@
 
 
                                 <div class="row px-2">
-                                    <div class="col-9">
+                                    <div class="col-9 mb-3">
                                         {{ __('Last updated ' . $category->updated_at->diffForHumans()) }}
                                     </div>
 
 
-                                    <div class="col-3">
-                                        <a class="btn btn-sm btn-outline-secondary"
-                                            href="{{ route('categories.edit', $category) }}">
-                                            {{ __('Edit') }}
-                                        </a>
+                                    @auth
+                                        <div class="col-3">
+                                            @can('update', $category)
+                                                <a class="btn btn-sm btn-outline-secondary"
+                                                    href="{{ route('categories.edit', $category) }}">
+                                                    {{ __('Edit') }}
+                                                </a>
+                                            @endcan
 
-                                        <a class="btn btn-sm btn-danger" href="#"
-                                            onclick="event.preventDefault();if(confirm('Are you sure to delete?')) { document.getElementById('removeCategory-{{ $loop->iteration }}').submit();}">
-                                            {{ __('Delete') }}
-                                        </a>
+                                            @can('delete', $category)
+                                                <a class="btn btn-sm btn-danger" href="#"
+                                                    onclick="event.preventDefault();if(confirm('Are you sure to delete?')) { document.getElementById('removeCategory-{{ $loop->iteration }}').submit();}">
+                                                    {{ __('Delete') }}
+                                                </a>
 
-                                        <form id="removeCategory-{{ $loop->iteration }}"
-                                            action="{{ route('categories.destroy', $category) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
-
-                                    </div>
+                                                <form id="removeCategory-{{ $loop->iteration }}"
+                                                    action="{{ route('categories.destroy', $category) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                            @endcan
+                                        </div>
+                                    @endauth
                                 </div>
 
                             </div>
